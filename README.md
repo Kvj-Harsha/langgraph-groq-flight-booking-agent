@@ -11,6 +11,12 @@ This repository contains a flight booking AI assistant powered by a Groq LLM bac
 
 ---
 
+# Workflow
+
+<img src="https://github.com/user-attachments/assets/561d72cb-e217-4cf2-a285-964ef3f026f8" />
+
+---
+
 ## Local Testing
 
 These files help you test the components and the agent workflow locally on your machine.
