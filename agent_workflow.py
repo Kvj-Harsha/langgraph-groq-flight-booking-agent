@@ -28,13 +28,18 @@ def parse_input(user_input):
         print("JSON decode error:", e)
         return {}
 
-def run_agent(user_input):
+def run_agent(user_input, context=None):
+    context = context or {}
+    last_flight_id = context.get("last_flight_id")
+
     parsed = parse_input(user_input)
+    print("LLM parsed:", parsed)
 
     if parsed.get("intent") == "book_flight":
-        flight_id = parsed.get("flight_id")
+        # fallback to last flight if not explicitly mentioned
+        flight_id = parsed.get("flight_id") or last_flight_id
         if not flight_id:
-            return "No flight ID provided for booking."
+            return "No flight ID provided and no previous flight to book."
         return confirm_booking(flight_id)
 
     origin = parsed.get("origin")
@@ -48,4 +53,10 @@ def run_agent(user_input):
     flights = search_flights(origin, destination, date)
     filtered = filter_flights(flights, max_price)
     formatted = format_flights(filtered)
+
+    # If a flight was found, save its ID for future use
+    if filtered:
+        context["last_flight_id"] = filtered[0]["flight_id"]
+
     return formatted
+

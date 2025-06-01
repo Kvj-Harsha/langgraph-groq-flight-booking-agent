@@ -1,17 +1,38 @@
 import gradio as gr
 from agent_workflow import run_agent
 
-def chat_with_agent(user_input):
-    response = run_agent(user_input)
-    return response
+def respond(user_msg, history, context_dict):
+    history = history or []
+    context_dict = context_dict or {}
 
-iface = gr.Interface(
-    fn=chat_with_agent,
-    inputs=gr.Textbox(lines=3, placeholder="Ask me to find or book a flight..."),
-    outputs="text",
-    title="Flight Booking Agent",
-    description="Ask for flights or book them using natural language."
-)
+    # Append user message
+    history.append({"role": "user", "content": user_msg})
 
-if __name__ == "__main__":
-    iface.launch()
+    # Run agent with context
+    reply = run_agent(user_msg, context_dict)
+
+    # Append assistant reply
+    history.append({"role": "assistant", "content": reply})
+
+    return history, history, context_dict
+
+
+with gr.Blocks(theme=gr.themes.Soft()) as demo:
+    gr.Markdown("""
+    # ✈️ Flight Booking Assistant
+    You can ask me to:
+    - **Find flights** — “Find me a flight from NYC to Paris under $500”
+    - **Book flights** — “Okay, book that flight”
+    
+    ℹ️ This is a mock flight assistant. Data is fictional but behaves realistically!
+    """)
+
+    chatbot = gr.Chatbot(label="Flight Chat", type="messages")
+    msg = gr.Textbox(placeholder="e.g., Book me a flight to London...", label="Your Message")
+    
+    state = gr.State([])          # chat history
+    context = gr.State({})        # booking context (like last_flight_id)
+
+    msg.submit(respond, [msg, state, context], [chatbot, state, context])
+
+demo.launch()
