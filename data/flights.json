@@ -1,0 +1,29 @@
+[
+  {
+    "flight_id": "NYC123",
+    "from": "New York",
+    "to": "Paris",
+    "date": "2025-06-07",
+    "price": 480,
+    "airline": "Air Example",
+    "departure_time": "18:00"
+  },
+  {
+    "flight_id": "NYC456",
+    "from": "New York",
+    "to": "Paris",
+    "date": "2025-06-07",
+    "price": 520,
+    "airline": "BudgetFly",
+    "departure_time": "22:00"
+  },
+  {
+    "flight_id": "NYC789",
+    "from": "New York",
+    "to": "London",
+    "date": "2025-06-07",
+    "price": 430,
+    "airline": "EuroJet",
+    "departure_time": "17:30"
+  }
+]
