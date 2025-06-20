@@ -1,7 +1,7 @@
-import requests
+import requests, os
 
 # Direct assignment for local testing
-GROQ_API_KEY = "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"
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
 
 HEADERS = {
